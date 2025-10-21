@@ -3,12 +3,18 @@ public class Solution {
         if (s.Length != t.Length)
             return false;
 
-        char[] sArr = s.ToCharArray();
-        char[] tArr = t.ToCharArray();
+        int[] count = new int[26];
 
-        Array.Sort(sArr);
-        Array.Sort(tArr);
+        foreach (char c in s)
+            count[c - 'a']++;
 
-        return new string(sArr) == new string(tArr);
+        foreach (char c in t)
+            count[c - 'a']--;
+
+        foreach (int val in count)
+            if (val != 0)
+                return false;
+
+        return true;
     }
 }
