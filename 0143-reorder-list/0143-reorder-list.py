@@ -9,9 +9,7 @@ class Solution:
         """
         Do not return anything, modify head in-place instead.
         """
-        if not head or not head.next or not head.next.next:
-            # 0, 1 or 2 nodes — nothing to reorder
-            return
+        
 
         # 1) Find middle (slow/fast pointers)
         slow, fast = head, head
