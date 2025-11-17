@@ -1,48 +1,30 @@
 # Definition for singly-linked list.
 # class ListNode:
-#     def __init__(self, val=0, next=None):
-#         self.val = val
-#         self.next = next
+#     def __init__(self, x):
+#         self.val = x
+#         self.next = None
 
 class Solution:
     def reorderList(self, head: ListNode) -> None:
-        """
-        Do not return anything, modify head in-place instead.
-        """
-        
-
-        # 1) Find middle (slow/fast pointers)
-        slow, fast = head, head
-        while fast.next and fast.next.next:
+        # find middle
+        slow, fast = head, head.next
+        while fast and fast.next:
             slow = slow.next
             fast = fast.next.next
-        
-        # After this loop: slow is at middle (end of first half)
-        # Split second half from slow.next
+
+        # reverse second half
         second = slow.next
-        slow.next = None  # end first half
+        prev = slow.next = None      # this cuts the list
+        while second:
+            tmp = second.next
+            second.next = prev
+            prev = second
+            second = tmp
 
-        # 2) Reverse second half
-        prev = None
-        curr = second
-        while curr:
-            nxt = curr.next
-            curr.next = prev
-            prev = curr
-            curr = nxt
-        # prev now is head of reversed second half
-
-        # 3) Merge first half and reversed second half
+        # merge two halves
         first, second = head, prev
         while second:
-            # store next pointers
-            tmp1 = first.next
-            tmp2 = second.next
-
-            # weave
+            tmp1, tmp2 = first.next, second.next
             first.next = second
             second.next = tmp1
-
-            # move pointers
-            first = tmp1
-            second = tmp2
+            first, second = tmp1, tmp2
